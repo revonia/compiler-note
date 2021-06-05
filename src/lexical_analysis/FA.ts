@@ -36,6 +36,15 @@ export class FAState {
     this.edges.push(edge);
     return edge;
   }
+
+  move(char: Char) {
+    for (const edge of this.edges) {
+      if (edge.char === char) {
+        return edge.nextState;
+      }
+    }
+    return null;
+  }
 }
 
 export function FA2mermaid(fa: FA, prefix = "s") {

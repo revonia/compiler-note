@@ -3,7 +3,7 @@ import { Char, EP, FA, FAEdge, FAState } from "./FA";
 
 export function RE2FA(input: RE): FA {
   let i = 0;
-  const chars: Char[] = [];
+  const chars = new Set<Char>();
   const states: FAState[] = [];
   const edges = new Set<FAEdge>();
 
@@ -15,7 +15,7 @@ export function RE2FA(input: RE): FA {
 
   function buildFA(re: RE): [FAState, FAState] {
     if (typeof re === "string") {
-      chars.push(re);
+      chars.add(re);
       const a = state();
       const b = state(true);
       edges.add(a.link(re, b));
@@ -60,7 +60,7 @@ export function RE2FA(input: RE): FA {
   const [start] = buildFA(input);
 
   return {
-    chars,
+    chars: Array.from(chars),
     states,
     edges: Array.from(edges),
     start,
