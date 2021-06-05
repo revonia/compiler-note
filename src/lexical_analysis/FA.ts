@@ -58,7 +58,7 @@ export function FA2mermaid(fa: FA, prefix = "s") {
 
   const edgeList = edges.map((edge) => {
     const c = edge.char === EP ? "ε" : edge.char;
-    return `${prefix}${edge.state.i} --${c}--> ${prefix}${edge.nextState.i}`;
+    return `${prefix}${edge.state.i} -- ${c} --> ${prefix}${edge.nextState.i}`;
   });
 
   return `

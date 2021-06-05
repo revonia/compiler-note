@@ -7,6 +7,10 @@ export function withDoc() {
     docOutput.push(text);
   }
 
+  function whiteHead(head: string) {
+    write(`### ${head}\n\n`);
+  }
+
   function writeMermaid(mermaid: string) {
     write("```mermaid\n" + mermaid + "\n```\n\n");
   }
@@ -23,6 +27,7 @@ export function withDoc() {
 
   return {
     write,
+    whiteHead,
     writeMermaid,
   };
 }
