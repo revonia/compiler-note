@@ -18,7 +18,7 @@ describe("Brzozowski 构造法", () => {
     whiteHead("reserve(NFA)");
     writeMermaid(FA2mermaid(rNFA));
 
-    const srNFA = Subset(rNFA);
+    const [srNFA] = Subset(rNFA);
     whiteHead("subset(reserve(NFA))");
     writeMermaid(FA2mermaid(srNFA));
 
@@ -26,7 +26,7 @@ describe("Brzozowski 构造法", () => {
     whiteHead("reserve(subset(reserve(NFA)))");
     writeMermaid(FA2mermaid(rsrNFA));
 
-    const mDFA = Subset(rsrNFA);
+    const [mDFA] = Subset(rsrNFA);
     whiteHead("subset(reserve(subset(reserve(NFA))))");
     const mermaid = FA2mermaid(mDFA);
     writeMermaid(mermaid);

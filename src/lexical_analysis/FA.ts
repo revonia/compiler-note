@@ -2,11 +2,14 @@ export const EP = Symbol("ε");
 
 export type Char = typeof EP | string;
 
+export type FAStateMap = Map<FAState, FAState>;
+
 export interface FA {
   states: FAState[];
   chars: Char[];
   edges: FAEdge[];
   start: FAState;
+  accepts: FAState[];
 }
 
 export class FAEdge {

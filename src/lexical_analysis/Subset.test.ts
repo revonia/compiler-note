@@ -13,7 +13,7 @@ describe("Subset Construction 子集构造法", () => {
 
     const NFA = RE2FA(testRE);
 
-    const DFA = Subset(NFA, "q", true);
+    const [DFA] = Subset(NFA, "q", true);
 
     const mermaid = FA2mermaid(DFA, "q");
     writeMermaid(mermaid);

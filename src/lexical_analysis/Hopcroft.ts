@@ -1,4 +1,4 @@
-import { FA, FAEdge, FAState } from "./FA";
+import { FA, FAEdge, FAState, FAStateMap } from "./FA";
 
 type Group = Set<FAState>;
 type GroupMap = Map<string, Group>;
@@ -7,7 +7,7 @@ export function Hopcroft(
   dfa: FA,
   prefix = "s",
   withOriginStateName = false
-): FA {
+): [FA, FAStateMap] {
   function addGroup(map: GroupMap, states: Group) {
     const key = Array.from(states.values())
       .map((s) => s.name)
@@ -96,7 +96,7 @@ export function Hopcroft(
   let i = 0;
   const states: FAState[] = [];
   const edges = new Set<FAEdge>();
-  const map = new Map<FAState, FAState>();
+  const map: FAStateMap = new Map();
   let start: FAState;
 
   function state(group: Group) {
@@ -133,10 +133,14 @@ export function Hopcroft(
     edges.add(newState.link(edge.char, newNextState));
   }
 
-  return {
-    states,
-    edges: Array.from(edges),
-    start,
-    chars: dfa.chars,
-  };
+  return [
+    {
+      states,
+      edges: Array.from(edges),
+      start,
+      chars: dfa.chars,
+      accepts: states.filter((s) => s.isAccept),
+    },
+    map,
+  ];
 }

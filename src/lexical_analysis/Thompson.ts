@@ -64,5 +64,6 @@ export function RE2FA(input: RE): FA {
     states,
     edges: Array.from(edges),
     start,
+    accepts: states.filter((s) => s.isAccept),
   };
 }

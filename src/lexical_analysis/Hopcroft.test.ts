@@ -13,7 +13,7 @@ describe("Hopcroft", () => {
 
   it("`fee|fie` to DFA", function () {
     const NFA = RE2FA(testRE);
-    const DFA = Subset(NFA);
+    const [DFA] = Subset(NFA);
     const mermaid = FA2mermaid(DFA);
     writeMermaid(mermaid);
 
@@ -44,8 +44,8 @@ s3 -- e --> s5
 
   it("`fee|fie` to minimal DFA", () => {
     const NFA = RE2FA(testRE);
-    const DFA = Subset(NFA);
-    const mDFA = Hopcroft(DFA, "d", true);
+    const [DFA] = Subset(NFA);
+    const [mDFA] = Hopcroft(DFA, "d", true);
 
     const mermaid = FA2mermaid(mDFA);
     writeMermaid(mermaid);
@@ -75,8 +75,8 @@ s2 -- e --> s3
   it("`a(b|c)*` to minimal DFA", () => {
     const testRE = and("a", any(or("b", "c")));
     const NFA = RE2FA(testRE);
-    const DFA = Subset(NFA);
-    const mDFA = Hopcroft(DFA, "d", true);
+    const [DFA] = Subset(NFA);
+    const [mDFA] = Hopcroft(DFA, "d", true);
 
     const mermaid = FA2mermaid(mDFA);
     writeMermaid(mermaid);
@@ -106,11 +106,11 @@ s1 -- c --> s1
     whiteHead("to NFA");
     writeMermaid(FA2mermaid(NFA));
 
-    const DFA = Subset(NFA);
+    const [DFA] = Subset(NFA);
     whiteHead("to DFA");
     writeMermaid(FA2mermaid(DFA));
 
-    const mDFA = Hopcroft(DFA);
+    const [mDFA] = Hopcroft(DFA);
     whiteHead("to minimal DFA");
     const mermaid = FA2mermaid(mDFA);
     writeMermaid(mermaid);
@@ -147,8 +147,8 @@ s4 -- e --> s6
   it("`there|here` to minimal DFA", () => {
     const testRE = or(and("there"), and("here"));
     const NFA = RE2FA(testRE);
-    const DFA = Subset(NFA);
-    const mDFA = Hopcroft(DFA);
+    const [DFA] = Subset(NFA);
+    const [mDFA] = Hopcroft(DFA);
 
     const mermaid = FA2mermaid(mDFA);
     writeMermaid(mermaid);

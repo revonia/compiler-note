@@ -1,4 +1,4 @@
-import { Char, EP, FA, FAEdge, FAState } from "./FA";
+import { Char, EP, FA, FAEdge, FAState, FAStateMap } from "./FA";
 
 function ep_closure(states: FAState[]) {
   const passed = new Set<FAState>();
@@ -34,12 +34,18 @@ function Delta(q: FAState[], c: Char) {
   return Array.from(result);
 }
 
-export function Subset(nfa: FA, prefix = "s", withOriginStateName = false): FA {
+export function Subset(
+  nfa: FA,
+  prefix = "s",
+  withOriginStateName = false
+): [FA, FAStateMap] {
   const states: FAState[] = [];
   const edges = new Set<FAEdge>();
 
+  const map: FAStateMap = new Map();
+
   let i = 0;
-  let map = new Map<string, FAState>();
+  let keyMap = new Map<string, FAState>();
 
   function state(list: FAState[]) {
     let isAccept = false;
@@ -54,8 +60,8 @@ export function Subset(nfa: FA, prefix = "s", withOriginStateName = false): FA {
     includes.sort();
     const key = includes.join(",");
 
-    if (map.has(key)) {
-      return map.get(key);
+    if (keyMap.has(key)) {
+      return keyMap.get(key);
     }
 
     let index = i++;
@@ -65,7 +71,12 @@ export function Subset(nfa: FA, prefix = "s", withOriginStateName = false): FA {
     } else {
       newState.name = `${prefix}${index}`;
     }
-    map.set(key, newState);
+
+    for (const s of list) {
+      map.set(s, newState);
+    }
+
+    keyMap.set(key, newState);
     states.push(newState);
     return newState;
   }
@@ -106,10 +117,14 @@ export function Subset(nfa: FA, prefix = "s", withOriginStateName = false): FA {
     }
   }
 
-  return {
-    chars: nfa.chars,
-    states,
-    edges: Array.from(edges),
-    start,
-  };
+  return [
+    {
+      chars: nfa.chars,
+      states,
+      edges: Array.from(edges),
+      start,
+      accepts: states.filter((s) => s.isAccept),
+    },
+    map,
+  ];
 }

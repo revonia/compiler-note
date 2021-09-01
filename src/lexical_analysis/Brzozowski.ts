@@ -34,12 +34,13 @@ export function reverse(fa: FA): FA {
     start,
     chars: fa.chars,
     edges: Array.from(edges),
+    accepts: states.filter((s) => s.isAccept),
   };
 }
 
 export function Brzozowski(NFA: FA) {
   const rNFA = reverse(NFA);
-  const srNFA = Subset(rNFA);
+  const [srNFA] = Subset(rNFA);
   const rsrNFA = reverse(srNFA);
-  return Subset(rsrNFA);
+  return Subset(rsrNFA)[0];
 }
